@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon index"
+    "server": "nodemon index",
+    "start-mongo-server": "sudo systemctl start mongod",
+    "stop-mongo-server": "sudo systemctl stop mongod"
   },
   "author": "Nabin KC",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.21"
