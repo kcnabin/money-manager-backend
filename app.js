@@ -1,15 +1,15 @@
 require('dotenv').config()
-const express = require('express')
-
 const MONGODB_ADDRESS = process.env.MONGODB_ADDRESS
 
+const mongoose = require('mongoose')
+const express = require('express')
 const app = express()
 app.use(express.json())
 
 const incomeListRouter = require('./routes/incomeListRouter')
 const incomeRecordsRouter = require('./routes/incomeRecordsRouter')
-
-const mongoose = require('mongoose')
+const expensesListRouter = require('./routes/expensesListRouter')
+const expensesRecordsRouter = require('./routes/expensesRecordsRouter')
 
 const connectToDB = async () => {
   await mongoose.connect(MONGODB_ADDRESS)
@@ -22,7 +22,6 @@ try {
   console.log('Error connecting to local mongoDB')
 }
 
-
 app.use((req, res, next) => {
   console.log("----------------------------------")
   console.log(`${req.method} request to ${req.path}`)
@@ -31,6 +30,8 @@ app.use((req, res, next) => {
 
 app.use('/api/incomeList', incomeListRouter)
 app.use('/api/incomeRecords', incomeRecordsRouter)
+app.use('/api/expensesList', expensesListRouter)
+app.use('/api/expensesRecords', expensesRecordsRouter)
 
 app.get("/", (req, res) => {
   const greetings = "Welcome to Express App"
