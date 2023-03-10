@@ -5,7 +5,7 @@ const expensesRecordsSchema = mongoose.Schema({
   category: String,
   subCategory: String,
   title: String,
-  amount: String
+  amount: Number
 })
 
 expensesRecordsSchema.set('toJSON', {

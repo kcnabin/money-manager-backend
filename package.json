@@ -6,11 +6,13 @@
   "scripts": {
     "server": "nodemon index",
     "start-mongo-server": "sudo systemctl start mongod",
-    "stop-mongo-server": "sudo systemctl stop mongod"
+    "stop-mongo-server": "sudo systemctl stop mongod",
+    "app": "npm run start-mongo-server && npm run server"
   },
   "author": "Nabin KC",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^7.0.1"
