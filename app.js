@@ -3,7 +3,10 @@ const MONGODB_ADDRESS = process.env.MONGODB_ADDRESS
 
 const mongoose = require('mongoose')
 const express = require('express')
+const cors = require('cors')
 const app = express()
+
+app.use(cors())
 app.use(express.json())
 
 const incomeListRouter = require('./routes/incomeListRouter')
