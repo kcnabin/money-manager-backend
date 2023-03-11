@@ -1,5 +1,5 @@
 const expensesListRouter = require('express').Router()
-const expensesListSchema = require('../schema/expensesListSchema')
+const expensesListSchema = require('../../schema/expenses/expensesListSchema')
 
 expensesListRouter.get('/', async (req, res) => {
   try {
