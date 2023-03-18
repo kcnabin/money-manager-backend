@@ -3,29 +3,34 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const userSchema = require('../../schema/user/userSchema')
 
-const secretKey = 'superSuperSecretKey'
+const secretKey = process.env.SECRETKEY
 
 loginRouter.post('/', async (req, res, next) => {
   const { username, password } = req.body
 
   try {
-    const doesUserExist = await userSchema.findOne({ username })
+    const newUser = await userSchema.findOne({ username })
 
-    if (doesUserExist) {
-      const isPasswordCorrect = await bcrypt.compare(password, doesUserExist.passwordHash)
+    if (newUser) {
+      const isPasswordCorrect = await bcrypt.compare(password, newUser.passwordHash)
       
       if (isPasswordCorrect) {
+
         const token = await jwt.sign(
-          {username: doesUserExist.username}, 
+          {
+            username: newUser.username,
+            userId: newUser._id.toString()
+          },
           secretKey,
-          {expiresIn: 600}
+          {expiresIn: 6000}
         )
 
-        console.log(`user '${doesUserExist.username}' logged in `)
+        console.log(`user '${newUser.username}' logged in `)
 
         res.json({
-          username: doesUserExist.username,
-          name: doesUserExist.name,
+          username: newUser.username,
+          name: newUser.name,
+          userId: newUser._id.toString(),
           token
         })
 
@@ -37,13 +42,13 @@ loginRouter.post('/', async (req, res, next) => {
 
     } else {
       res.status(400).json({
-        error: 'user does not exist in db'
+        error: 'user does not exist in database'
       })
     }
   } catch (e) {
-    console.log('Error connecting to db', e)
+    console.log('Error connecting to db')
     res.status(400).json({
-      error: 'error connecting to db'
+      error: 'Error connecting to db'
     })
   }
   

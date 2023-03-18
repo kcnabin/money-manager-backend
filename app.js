@@ -15,6 +15,7 @@ const expensesListRouter = require('./routes/expenses/expensesListRouter')
 const expensesRecordsRouter = require('./routes/expenses/expensesRecordsRouter')
 const loginRouter = require('./routes/login/loginRouter')
 const userRouter = require('./routes/user/userRouter')
+const practiceRouter = require('./routes/practice/practiceRouter')
 
 const connectToDB = async () => {
   await mongoose.connect(MONGODB_ADDRESS)
@@ -39,6 +40,7 @@ app.use('/api/expensesList', expensesListRouter)
 app.use('/api/expensesRecords', expensesRecordsRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/user', userRouter)
+app.use('/api/practice', practiceRouter)
 
 app.get("/", (req, res) => {
   const greetings = "Welcome to Express App"

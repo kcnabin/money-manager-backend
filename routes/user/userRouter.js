@@ -18,15 +18,16 @@ userRouter.post('/', async (req, res) => {
         try {
           const saltRounds = 10
           const passwordHash = await bcrypt.hash(password, saltRounds)
-          const newUser = new userSchema({ username, name, passwordHash })
+          const newUser = new userSchema({ 
+            username, 
+            name, 
+            passwordHash,
+          })
           const savedUser = await newUser.save()
           
           console.log(`new user '${savedUser.username}' created!`)
           
-          res.status(201).json({
-            username: savedUser.username,
-            name: savedUser.name,
-          })
+          res.status(201).json(savedUser)
         } catch (e) {
           console.log('Error creating new user')
           console.log(e)
@@ -45,5 +46,21 @@ userRouter.post('/', async (req, res) => {
   }
 
 })
+
+userRouter.post('/:id', async (req, res) => {
+  const id = req.params.id
+  const user = await userSchema.findById(id)
+  const { noteId } = req.body
+
+  console.log('user', user)
+  const updatedUser = {
+    ...user,
+    income: [...user.income, noteId]
+  }
+
+  console.log('updatedUser', updatedUser)
+
+  res.end()
+} )
 
 module.exports = userRouter
